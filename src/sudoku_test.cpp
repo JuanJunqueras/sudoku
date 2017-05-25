@@ -1,14 +1,14 @@
 #include "../lib/gtest/gtest.h"
 #include "sudoku.h"
 
-TEST(SudokuTests, celdaVacia) {
+TEST(sudoku_esCeldaVaciaTEST, celdaVacia) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	bool rv = sudoku_esCeldaVacia(t, 0,0);
     ASSERT_EQ(true, rv);
 }
 
-TEST(SudokuTests, celdaNoVacia) {
+TEST(sudoku_esCeldaVaciaTEST, celdaNoVacia) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	sudoku_llenarCelda(t,0,0,1);
@@ -16,14 +16,14 @@ TEST(SudokuTests, celdaNoVacia) {
     ASSERT_EQ(false, rv);
 }
 
-TEST(SudokuTests, cantCeldasVaciasEnTableroVacio) {
+TEST(sudoku_nroDeCeldasVaciasTEST, cantCeldasVaciasEnTableroVacio) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	int rv = sudoku_nroDeCeldasVacias(t);
     ASSERT_EQ(81, rv);
 }
 
-TEST(SudokuTests, cantCeldasVaciasEnTableroNoVacio) {
+TEST(sudoku_nroDeCeldasVaciasTEST, cantCeldasVaciasEnTableroNoVacio) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	sudoku_llenarCelda(t,0,0,1);
@@ -31,7 +31,7 @@ TEST(SudokuTests, cantCeldasVaciasEnTableroNoVacio) {
     ASSERT_EQ(80, rv);
 }
 
-TEST(SudokuTests, primerCeldaVaciaEnTableroVacio) {
+TEST(sudoku_primerCeldaVaciaAmbosTEST, primerCeldaVaciaEnTableroVacio) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	int f = sudoku_primerCeldaVaciaFila(t);
@@ -40,7 +40,7 @@ TEST(SudokuTests, primerCeldaVaciaEnTableroVacio) {
     ASSERT_EQ(0, c);
 }
 
-TEST(SudokuTests, primerCeldaVaciaEnTableroNoVacio) {
+TEST(sudoku_primerCeldaVaciaAmbosTEST, primerCeldaVaciaEnTableroNoVacio) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	sudoku_llenarCelda(t,0,0,1);
@@ -50,7 +50,7 @@ TEST(SudokuTests, primerCeldaVaciaEnTableroNoVacio) {
     ASSERT_EQ(1, c);
 }
 
-TEST(SudokuTests, primerCeldaVaciaEnTableroNoVacioFilaCompleta) {
+TEST(sudoku_primerCeldaVaciaAmbosTEST, primerCeldaVaciaEnTableroNoVacioFilaCompleta) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	for (int i= 0; i<9;i++) {
@@ -62,7 +62,7 @@ TEST(SudokuTests, primerCeldaVaciaEnTableroNoVacioFilaCompleta) {
     ASSERT_EQ(0, c);
 }
 
-TEST(SudokuTests, llenarCeldaVacia) {
+TEST(sudoku_valorEnCeldaTEST, llenarCeldaVacia) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	sudoku_llenarCelda(t,0,0,5);
@@ -70,7 +70,7 @@ TEST(SudokuTests, llenarCeldaVacia) {
 	ASSERT_EQ(5,rv);
 }
 
-TEST(SudokuTests, llenarCeldaNoVacia) {
+TEST(sudoku_valorEnCeldaTEST, llenarCeldaNoVacia) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	sudoku_llenarCelda(t,4,4,5);
@@ -79,7 +79,7 @@ TEST(SudokuTests, llenarCeldaNoVacia) {
 	ASSERT_EQ(7,rv);
 }
 
-TEST(SudokuTests, resolverTableroVacio) {
+TEST(SudokuIntegracionTest, resolverTableroVacio) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	bool resolver_rv = sudoku_resolver(t);
@@ -88,7 +88,7 @@ TEST(SudokuTests, resolverTableroVacio) {
 	ASSERT_EQ(true,totalmente_resuelto_rv);
 }
 
-TEST(SudokuTests, tableroSinCeldasVacias) {
+TEST(SudokuIntegracionTest, tableroSinCeldasVacias) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	bool resolver_rv = sudoku_resolver(t);
@@ -101,7 +101,7 @@ TEST(SudokuTests, tableroSinCeldasVacias) {
 	ASSERT_EQ(-1, primer_celda_vacia_columna_rv);
 }
 
-TEST(SudokuTests, vaciarCelda) {
+TEST(SudokuIntegracionTest, vaciarCelda) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	bool esCeldaVacia0 = sudoku_esCeldaVacia(t,0,0);
@@ -114,7 +114,7 @@ TEST(SudokuTests, vaciarCelda) {
 	ASSERT_EQ(true, esCeldaVacia2);
 }
 
-TEST(SudokuTests, tableroNoTotalmenteResuelto) {
+TEST(SudokuIntegracionTest, tableroNoTotalmenteResuelto) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	bool tablero_valido = sudoku_esTableroValido(t);
@@ -125,7 +125,7 @@ TEST(SudokuTests, tableroNoTotalmenteResuelto) {
 	ASSERT_EQ(false, tablero_tot_resuelto);
 }
 
-TEST(SudokuTests, tableroInvalido) {
+TEST(SudokuIntegracionTest, tableroInvalido) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	t[0][0] = 10;
@@ -137,7 +137,7 @@ TEST(SudokuTests, tableroInvalido) {
 	ASSERT_EQ(false, tablero_tot_resuelto);
 }
 
-TEST(SudokuTests, esSubTablero) {
+TEST(SudokuIntegracionTest, esSubTablero) {
 	Tablero t0;
 	Tablero t1;
 	sudoku_vaciarTablero(t0);
@@ -151,14 +151,14 @@ TEST(SudokuTests, esSubTablero) {
 	ASSERT_EQ(true, esSubTablero2);
 }
 
-TEST(SudokuTests, printSudokuVacio){
+TEST(SudokuIntegracionTest, printSudokuVacio){
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	sudoku_llenarCelda(t,0,0,1);
 	sudoku_print(t);
 }
 
-TEST(SudokuTests, cantOperaciones){
+TEST(SudokuIntegracionTest, cantOperaciones){
 	Tablero t;
 	sudoku_vaciarTablero(t);
 	int nroOperaciones = 0;
