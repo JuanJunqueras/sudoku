@@ -35,18 +35,18 @@ void sudoku_vaciarTablero(Tablero t) {
 
 int sudoku_nroDeCeldasVacias(Tablero t) {
 	int f = 0;
-	int celdasVacias = 0;
+	int count = 0;
 	while (f < 9){
 		int c = 0;
 		while (c < 9){
 			if (t[f][c] = 0){
-				celdasVacias++;
+				count++;
 			}
 		c++;
 		}
 	f++;
 	}
-	return celdasVacias;
+	return count;
 }
 
 int sudoku_primerCeldaVaciaFila(Tablero t) {
