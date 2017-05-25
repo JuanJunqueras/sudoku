@@ -62,6 +62,7 @@ Nuestro grupo esta conformado por:
         git fetch
 
         # lo pongo en mi version del repo
+        git merge origin/master         
         git merge origin/develop/branchQueMeCorrespondeSubir
 
         # Lo subo a GitHub
