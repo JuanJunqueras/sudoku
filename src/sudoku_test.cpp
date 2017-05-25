@@ -62,6 +62,32 @@ TEST(sudoku_primerCeldaVaciaAmbosTEST, primerCeldaVaciaEnTableroNoVacioFilaCompl
     ASSERT_EQ(0, c);
 }
 
+
+TEST(sudoku_primerCeldaVaciaColumnaTEST, primerCeldaVaciaEnTableroVacio) {
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	int c = sudoku_primerCeldaVaciaColumna(t);
+    ASSERT_EQ(0, c);
+}
+
+TEST(sudoku_primerCeldaVaciaColumnaTEST, primerCeldaVaciaEnTableroNoVacio) {
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,0,0,1);
+	int c = sudoku_primerCeldaVaciaColumna(t);
+    ASSERT_EQ(1, c);
+}
+
+TEST(sudoku_primerCeldaVaciaColumnaTEST, primerCeldaVaciaEnTableroNoVacioFilaCompleta) {
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	for (int i= 0; i<9;i++) {
+		sudoku_llenarCelda(t,0,i,i+1);
+	}
+	int c = sudoku_primerCeldaVaciaColumna(t);
+    ASSERT_EQ(0, c);
+}
+
 TEST(sudoku_valorEnCeldaTEST, llenarCeldaVacia) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
