@@ -82,10 +82,14 @@ bool sudoku_esSubTablero(Tablero t0, Tablero t1) {
 	return false;
 }
 
-
 bool sudoku_resolver(Tablero t) {
 	// COMPLETAR
-	return false;
+
+	bool res;
+	int count = 0; // Cuenta, va a ser ignorada.
+	res = sudoku_resolver(t, count);
+
+	return res;
 }
 
 bool sudoku_resolver(Tablero t, int& count) {
