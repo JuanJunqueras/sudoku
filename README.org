@@ -1,5 +1,4 @@
-sudokus
-================================================================================
+#+TITLE: sudokus
 
 Este es el repo para el segundo trabajo practico de la materia /Algoritmos y
 estructuras de datos I/, Facultad de Ciencias Exactas y Naturales, (FCEN-UBA).
@@ -10,3 +9,5 @@ Nuestro grupo esta conformado por:
 - Milicich, Mariana
 - Perez Centeno, Joaquín
 
+
+   
