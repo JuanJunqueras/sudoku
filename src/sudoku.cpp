@@ -44,8 +44,25 @@ int sudoku_primerCeldaVaciaFila(Tablero t) {
 }
 
 int sudoku_primerCeldaVaciaColumna(Tablero t) {
-	// COMPLETAR
-	return -1;
+
+	/* itera por todas las filas. luego por todas las columnas.
+	 * cuando encuentra la celda, debería dejar de iterar y devolver
+	 * */
+
+	int res = -1; // -1 significa que no fue hallada
+
+	// Itera en orden por todas las filas y columnas.
+	for (int f = 0; f < 9 && res == -1; f++) {
+		for (int c = 0; f < 9 && res == -1; f++) {
+
+			if (sudoku_esCeldaVacia(t, f, c)) {
+				// Hallamos la primer celda vacía.
+				res = c; // Ahora que res != -1, deja de iterar.
+			}
+		}
+	}
+
+	return res;
 }
 
 int sudoku_valorEnCelda(Tablero t, int f, int c) {
