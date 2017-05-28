@@ -91,9 +91,11 @@ int sudoku_primerCeldaVaciaColumna(Tablero t) {
 }
 
 int sudoku_valorEnCelda(Tablero t, int f, int c) {
-	// COMPLETAR
-	return -1;
+	int result = 0; //no hace falta inicializar, pero si lo hago es mejor, no?
+	result = t[f][c]; //se podrían escribir ésta y la linea anterior en una sola? ej: int result = t[f][c];
+	return result; //FIXME el archivo original tennía "return result-1;" lo cambié por mi código, no le veo ningún sentido al original
 }
+
 
 void sudoku_llenarCelda(Tablero t, int f, int c, int v) {
 	// COMPLETAR
