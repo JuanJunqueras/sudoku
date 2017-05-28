@@ -29,6 +29,15 @@ void sudoku_print(Tablero t) {
 bool sudoku_esCeldaVacia(Tablero t, int f, int c) {
 	return t[f][c] == 0;
 }
+//bool sudoku_esCeldaVacia(vector<vector<int> > t, int f, int c){  //FIXME:eddit de Juan, este es mi primer branch en el que iba a subir esCeldaVacia, veo que ya está hecha, la subo igual para aprender git.
+//	Bool result = false;
+//	if(t[f][c] == 0){
+//		result = true;
+//	}
+//	return result;
+//}
+
+
 void sudoku_vaciarTablero(Tablero t) {
 	// COMPLETAR
 }
