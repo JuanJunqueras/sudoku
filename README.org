@@ -1,0 +1,107 @@
+#+TITLE: sudokus
+
+Este es el repo para el segundo trabajo practico de la materia /Algoritmos y
+estructuras de datos I/, Facultad de Ciencias Exactas y Naturales, (FCEN-UBA).
+
+Nuestro grupo esta conformado por:
+- Grinberg, pablo
+- Junqueras, Juan
+- Milicich, Mariana
+- Perez Centeno, Joaquín
+
+** Workflow de git
+
+   Esta lista de pasos es para que todos estemos en la misma hoja.
+
+   Leanse esta [[http://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/commandlinegit.html][guía de Git]] o tenganla como referencia porque esta buena.
+
+   1. Hago un clone del repo.
+   2. Decido que función quiero modificar. Hago un [[https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell][branch]] para el mini
+      proyecto de implementar eso:
+
+      #+BEGIN_SRC shell-script
+        # Con esto voy a un branch. el `-b` hace que si no existe lo crea.
+        git checkout -b debelop/nombreDeLaFuncion
+      #+END_SRC
+
+      Un branch es una cadena de commits paralela, donde el código de otras
+      funciones mal implementadas no nos puede molestar, porque va a estar
+      encerrada en su branch
+ 
+   3. Modifico en el archivo =src/sudoku.cpp= el contendido de *Solamente* la
+      funcion que quiero modificar.
+
+   4. Cuando terminé la funcion esa, tenga o no errores, respiro profundo, voy
+      a la consola y escribo =git diff src/sudoku.cpp=. debería aparecer en
+      verde y rojo todo lo nuevo y lo que se fué. Lo que quiero que chequeen es
+      que no modificaron otra funcion por error. 
+
+   5. Hago un commit de los cambios que hice. Los commits deben ser
+      minimalistas (importante) y estar escritos en tiempo presente (no tan
+      importante). 
+
+      #+BEGIN_SRC shell-script
+        # Añade los cambios de sudoku.cpp
+        git add src/sudoku.cpp
+  
+        # Un ejemplo de mensaje de commit
+        git commit -m "implemento esto y aquello. pasa los tests."
+  
+        # otro ejemplo
+        git commit -m "implemento esto. tiene errores."
+      #+END_SRC
+      
+   6. Lo suben al github. Ustedes editen solo los branches individuales, nunca
+      el master. Es mas fácil si hay una persona encargada de que no se rompan
+      las cosas.
+      #+BEGIN_SRC shell-script
+        # Me aseguro estoy en el branch
+        git checkout develop/branchQueMeCorrespondeSubir
+
+        # Traigo lo que hicieron los demás
+        git fetch
+
+        # lo pongo en mi version del repo
+        git merge origin/master         
+        git merge origin/develop/branchQueMeCorrespondeSubir
+
+        # Lo subo a GitHub
+        git push -u origin develop/branchQueMeCorrespondeSubir
+       #+END_SRC
+   
+*** ¿Que pasa si necesito una función implementada en otro branch?
+
+    Esto puede pasar. hay que hacer un [[https://www.atlassian.com/git/tutorials/merging-vs-rebasing][merge]]. Básicamente, un merge junta los
+    comits de otro branch en el branch donde estoy parado.
+    
+    1. Me aseguro que estoy en el branch que debo estar. Para saberlo tengo
+       que ejecutar =git status=. El output va a decir algo tipo
+       =on branch ...=
+
+    #+BEGIN_SRC shell-script
+      # Para saber en que branch estoy ejecuto esto
+      # Debería contener "on git branch XYZ"
+      git status
+    
+      # Si no estoy ahí, con esto lo visito
+      git checkout debelop/nombreDeLaFuncion
+    #+END_SRC
+
+    2. Me aseguro que tengo la ultima versión de lo que esta en el repo.
+
+    #+BEGIN_SRC shell-script
+      # En el branch master de origin (lo que esta en GH), estan las
+      # implementaciones que sabemos que pasan los test.
+      git pull origin master
+    #+END_SRC
+     
+    3. Lo meto en mi branch.
+
+    #+BEGIN_SRC shell-script
+      # Lo que hay de nuevo en el master, lo quiero tener en mi branch:
+      git merge master
+    #+END_SRC
+
+    4. Listo, ahora debería tener disponible la funcion implementada en otro
+       ejercicio. Esta practica es importante para que sea prolijo y vale
+       para funciones de otro compañero como tuyas.
