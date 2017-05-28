@@ -39,8 +39,22 @@ int sudoku_nroDeCeldasVacias(Tablero t) {
 }
 
 int sudoku_primerCeldaVaciaFila(Tablero t) {
-	// COMPLETAR
-	return -1;
+	int res = -1;
+	int f = 0;
+	//va iterando por todas las celdas en sentido horizontal//
+	while(f<9){
+		int c = 0;
+		while(c<9){
+			if(sudoku_esCeldaVacia(t,f,c)){
+				//encontré la primera celda//
+				res = f;
+			}
+			c = c + 1;
+		}
+		f = f + 1;
+	}
+	//si no hay celda vacía, el resultado es -1.
+	return res;
 }
 
 int sudoku_primerCeldaVaciaColumna(Tablero t) {
