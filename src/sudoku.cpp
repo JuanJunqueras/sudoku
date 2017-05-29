@@ -39,7 +39,16 @@ bool sudoku_esCeldaVacia(Tablero t, int f, int c) {
 
 
 void sudoku_vaciarTablero(Tablero t) {
-	// COMPLETAR
+	int f = 0;
+	int c = 0;
+	while(f < 9){
+		while(c < 9){
+		t[f][c]=0;
+		c++;
+		}
+	f++;
+	}
+	// Recorre el tablero y pone un cero en cada celda.
 }
 
 int sudoku_nroDeCeldasVacias(Tablero t) {
