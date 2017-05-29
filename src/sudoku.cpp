@@ -86,7 +86,7 @@ void sudoku_llenarCelda(Tablero t, int f, int c, int v) {
 }
 
 void sudoku_vaciarCelda(Tablero t, int f, int c) {
-	// COMPLETAR
+	t[f][c] = 0;
 }
 
 bool sudoku_esTableroValido(Tablero t) {
