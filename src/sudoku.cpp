@@ -29,8 +29,13 @@ void sudoku_print(Tablero t) {
 bool sudoku_esCeldaVacia(Tablero t, int f, int c) {
 	return t[f][c] == 0;
 }
+
 void sudoku_vaciarTablero(Tablero t) {
-	// COMPLETAR
+	for (int iFila = 0; iFila < 9; iFila++) {
+		for (int iColumna = 0; iColumna < 9; iColumna++) {
+			t[iFila][iColumna] = 0;
+		}
+	}
 }
 
 int sudoku_nroDeCeldasVacias(Tablero t) {
@@ -98,7 +103,7 @@ int sudoku_valorEnCelda(Tablero t, int f, int c) {
 
 
 void sudoku_llenarCelda(Tablero t, int f, int c, int v) {
-	// COMPLETAR
+	t[f][c] = v;
 }
 
 void sudoku_vaciarCelda(Tablero t, int f, int c) {
@@ -128,13 +133,14 @@ bool sudoku_esTableroValido(Tablero t) {
 }
 
 bool sudoku_esTableroParcialmenteResuelto(Tablero t) {
-	// COMPLETAR
+
 	return false;
 }
 
 bool sudoku_esTableroTotalmenteResuelto(Tablero t) {
-	// COMPLETAR
-	return false;
+	// Se desprende fácil de la especificación
+	return sudoku_esTableroParcialmenteResuelto(t)
+		   && sudoku_nroDeCeldasVacias(t) == 0;
 }
 
 bool sudoku_esSubTablero(Tablero t0, Tablero t1) {
