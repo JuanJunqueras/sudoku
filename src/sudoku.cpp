@@ -44,7 +44,7 @@ int sudoku_nroDeCeldasVacias(Tablero t) {
 	while (f < 9){
 		int c = 0;
 		while (c < 9){
-			if (t[f][c] = 0){
+			if (t[f][c] == 0){
 				celdasVacias++;
 			}
 		c++;
