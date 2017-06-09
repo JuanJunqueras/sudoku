@@ -58,9 +58,9 @@ int sudoku_primerCeldaVaciaFila(Tablero t) {
 	int res = -1;
 	int f = 0;
 	//va iterando por todas las celdas en sentido horizontal//
-	while (f < 9) {
+	while (f < 9 && res == -1) {
 		int c = 0;
-		while (c < 9) {
+		while (c < 9 && res == -1) {
 			if (sudoku_esCeldaVacia(t, f, c)) {
 				//encontré la primera celda//
 				res = f;
@@ -83,7 +83,7 @@ int sudoku_primerCeldaVaciaColumna(Tablero t) {
 
 	// Itera en orden por todas las filas y columnas.
 	for (int f = 0; f < 9 && res == -1; f++) {
-		for (int c = 0; f < 9 && res == -1; f++) {
+		for (int c = 0; c < 9 && res == -1; c++) {
 
 			if (sudoku_esCeldaVacia(t, f, c)) {
 				// Hallamos la primer celda vacía.
@@ -178,30 +178,27 @@ bool columnasOk(Tablero t) {
 int cantidadEnRegion(Tablero t, int x, int y, int valor) {
 	int f = 0;
 	int count = 0;
-	if (t[(3 * x) + f][(3 * y) + c] == 0) {
-		count = 1;
-	} else {
-		while (f < 3) {
-			int c = 0;
-			while (c < 3) {
-				if (t[(3 * x) + f][(3 * y) + c] == valor) {
-					count++;
-				}
-				c++;
+	while (f < 3){
+		int c = 0;
+		while (c < 3){
+			if (t[3*x + f][3*y + c] == valor){
+				count++;
 			}
-			f++;
+			c++;
 		}
+		f++;
 	}
 	return count;
 }
+
 
 bool regionValida(Tablero t, int x, int y) {
 	bool result = true;
 	int f = 0;
 	while (f < 3) {
 		int c = 0;
-		while (c < 3) {
-			if (cantidadEnRegion(t, x, y, t[(3 * x) + f][(3 * y) + c]) != 1) {
+		while (c < 3){
+			if (t[3*x+f][3*y+c] != 0 && cantidadEnRegion(t,x,y,t[3*x+f][3*y+c]) != 1){
 				result = false;
 			}
 			c++;
