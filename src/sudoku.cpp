@@ -144,8 +144,20 @@ bool sudoku_esTableroTotalmenteResuelto(Tablero t) {
 }
 
 bool sudoku_esSubTablero(Tablero t0, Tablero t1) {
-	// COMPLETAR
-	return false;
+	bool result = true;
+	int f = 0;
+	//Empieza a recorrer el tablero t0 celda por celda
+	while (f < 9 && result){				//Significa que va a salir del ciclo cuando encuentre una celda que indica
+		int c = 0;							//que t0 no es subtablero de t1. Repito eso para el ciclo de la columna.
+		while (c < 9 && result){
+			if (!sudoku_esCeldaVacia(t0, f, c) && t0[f][c] != t1[f][c]){
+				result = false;
+			}
+			c++;
+		}
+		f++;
+	}
+	return result;
 }
 
 bool sudoku_resolver(Tablero t) {
