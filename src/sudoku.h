@@ -67,6 +67,31 @@ bool sudoku_esTableroValido(Tablero t);
 bool sudoku_esTableroParcialmenteResuelto(Tablero t);
 
 /**
+ * Las filas no tienen numeros repetidos en el tablero.
+ * */
+bool filasOk(Tablero t);
+
+/**
+ * Devuelve true si el tablero no posee columnas con celdas repetidas.
+ * */
+bool columnasOk(Tablero t);
+
+/**
+ * Devuelve la cantidad de repeticiones que tiene un valor en una region.
+ * */
+int cantidadEnRegion(Tablero t, int x, int y, int valor);
+
+/**
+ * Devuelve true si no hay elementos repetidos en la region.
+ * */
+bool regionValida (Tablero t, int x, int y);
+
+/**
+ * Devuelve true si no hay regiones invalidas en el tablero.
+ * */
+bool regionesOk(Tablero t);
+
+/**
  * Indica si un tablero esta totalmente resuelto.
  * Un tablero esta totalmente resuelto si:
  * - es un tablero parcialmente resuelto
