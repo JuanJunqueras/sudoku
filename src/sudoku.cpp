@@ -261,7 +261,76 @@ bool sudoku_resolver(Tablero t) {
 }
 
 bool sudoku_resolver(Tablero t, int& count) {
-	// COMPLETAR
+
+	/**
+	 * Primero, se deben obtener las coordenadas de todas las celdas vacias
+	 * del tablero para saber donde modificar el tablero.
+	 * */
+	vector<int> celdasVaciasFilas;
+	vector<int> celdasVaciasColumnas;
+
+	int proximaCeldaVaciaFila = sudoku_primerCeldaVaciaFila();
+	int proximaCeldaVaciaColumna = sudoku_primerCeldaVaciaColumna();
+	/* Por especificacion, si no hay una proxima celda vacía, tanto
+	 * sudoku_primerCeldaVaciaFila como sudoku_primerCeldaVaciaColumna
+	 * deberían devolver -1. De este modo, si las funciones son correctas
+	 * respecto de su especificacion, Debería parar cuando se acaban las
+	 * celdas vacías para agregar a la lista.
+	 *  */
+	while (proximaCeldaVacia != -1) {
+
+		// Por la guarda, sabemos que existe una proxima celda vacia.
+		celdasVaciasFilas.push_back(proximaCeldaVaciaFila);
+		celdasVaciasColumnas.push_back(proximaCeldaVaciaColumna);
+
+		// Ponemos un 1.
+		sudoku_llenarCelda(t, proximaCeldaVaciaFila, proximaCeldaVaciaColumna,
+				1);
+
+		// Obtenemos las coordenadas de la proxima celda vacia.
+		int proximaCeldaVaciaFila = sudoku_primerCeldaVaciaFila();
+		int proximaCeldaVaciaColumna = sudoku_primerCeldaVaciaColumna();
+	}
+
+	/* Ahora se deben probar todas las posibles combinaciones de numeros en
+	 * las casillas vacias hasta hallar un resultado valido.
+	 * */
+	while (! sudoku_esTableroTotalmenteResuelto(t)) {
+
+
+		// Incrementa los casilleros para obtener la proxima combinacion.
+		for (int i = 0; i < (int) celdasVaciasFilas.size(); i++) {
+
+			// Obtiene las coordenadas para la i-esima celda vacia.
+			int f = celdasVaciasFilas[i];
+			int c = celdasVaciasColumnas[i];
+			// Obtiene el valor en la i-esima fila
+			int v = sudoku_valorEnCelda(t, f, c);
+
+			if (v < 9) {
+				// Incrementamos el valor en la celda. La especificacion dice que
+				// Debe estar vacia para llenarla.
+				sudoku_vaciarCelda(t, f, c);
+				sudoku_llenarCelda(t, f, c, v + 1);
+
+				// No debemos tocar ninguna otra celda. Saco de rango el indice
+				// para salir del loop.
+				i = (int) celdasVaciasFilas.size();
+			} else {
+				// Si el valor ya esta en el maximo (v == 9), en vez de
+				// incrementarlo voy a querer devolverlo a 1.
+				sudoku_vaciarCelda(t, f, c);
+				sudoku_llenarCelda(t, f, c, 1);
+				// Ahora, en vez de cortar el loop, dejo que avance a la proxima.
+			}
+
+		}
+
+
+	}
+
+	// El tablero debería estar resuelto.
+
 	return false;
 }
 
