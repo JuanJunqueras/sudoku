@@ -132,102 +132,97 @@ bool sudoku_esTableroValido(Tablero t) {
 
 bool sudoku_esTableroParcialmenteResuelto(Tablero t) {
 
-	return filasOk(t) && columnasOk(t) && regionesOk(t);
+	return sudoku_esTableroValido(t) && filasOk(t) && columnasOk(t) && regionesOk(t);
 }
 
 bool filasOk(Tablero t) {
 	bool res = true;
-	int f = 0;
-	while (f < 9) {
-		int c = 0;
-		while (c < 8) {
-			int k = c + 1;
-			while (k < 9) {
-				if ((t[f][c] = !0) && (t[f][c] == t[f][k])) {
+
+	for (int f = 0; f < 9; ++f) {
+		for (int c = 0; c < 8; ++c) {
+
+			// No debe volver a aparecer a la derecha c.
+			for (int k = c + 1; k < 9; k++) {
+
+				if ((t[f][c] != 0) && (t[f][c] == t[f][k])) {
 					res = false;
 				}
-				k++;
+
 			}
-			c++;
 		}
-		f++;
 	}
+
 	return res;
 }
 
 bool columnasOk(Tablero t) {
 	bool res = true;
-	int c = 0;
-	while (c < 9) {
-		int f = 0;
-		while (f < 8) {
-			int k = f + 1;
-			while (k < 9) {
-				if ((t[f][c] = !0) && (t[f][c] == t[k][c])) {
-					res = false;
+
+	for (int c = 0; c < 9; c++) {
+		for (int f = 0; f < 8; f++) {
+
+			if (t[f][c] != 0) {
+				// Si el casillero es distinto de 0, para toda celda inferior,
+				// su valor es distinto.
+				for (int fPrima = f + 1; fPrima < 9; fPrima++) {
+					res &= t[f][c] != t[fPrima][c];
 				}
-				k++;
 			}
-			f++;
 		}
-		c++;
 	}
+
 	return res;
 }
 
-int cantidadEnRegion(Tablero t, int x, int y, int valor) {
-	int f = 0;
-	int count = 0;
-	while (f < 3){
-		int c = 0;
-		while (c < 3){
-			if (t[3*x + f][3*y + c] == valor){
-				count++;
-			}
-			c++;
-		}
-		f++;
-	}
-	return count;
-}
+bool laRegionNoTieneRepetidas(Tablero t, int f, int c) {
 
-
-bool regionValida(Tablero t, int x, int y) {
 	bool result = true;
-	int f = 0;
-	while (f < 3) {
-		int c = 0;
-		while (c < 3){
-			if (t[3*x+f][3*y+c] != 0 && cantidadEnRegion(t,x,y,t[3*x+f][3*y+c]) != 1){
-				result = false;
+
+	for (int k = 1; k <= 9; k++) {
+
+		int count = 0;
+
+		// Contamos las apariciones de k en la region.
+		for (int fOffset = 0; fOffset < 3; fOffset++) {
+			for (int cOffset = 0; cOffset < 3; cOffset++) {
+
+				if (t[f + fOffset][c + cOffset] == k) {
+					count++;
+				}
 			}
-			c++;
 		}
-		f++;
+
+		result &= count < 2;
+
 	}
+
 	return result;
+
 }
 
 bool regionesOk(Tablero t) {
-	int x = 0;
+
 	bool result = true;
-	while (x < 3) {
-		int y = 0;
-		while (y < 3) {
-			if (regionValida(t, x, y) == false) {
-				result = false;
-			}
-			y++;
+
+	for (int xRegion = 0; xRegion < 3; ++xRegion) {
+		for (int yRegion = 0; yRegion < 3; ++yRegion) {
+
+			// La esquina donde comienza la region en el tablero. (sup-izq)
+			int f = xRegion * 3;
+			int c = yRegion * 3;
+
+			result &= laRegionNoTieneRepetidas(t, f, c);
+
 		}
-		x++;
 	}
+
 	return result;
 }
 
 bool sudoku_esTableroTotalmenteResuelto(Tablero t) {
 	// Se desprende fácil de la especificación
-	return sudoku_esTableroParcialmenteResuelto(t) && sudoku_nroDeCeldasVacias(
-			t) == 0;
+	return sudoku_esTableroParcialmenteResuelto(t)
+			&& sudoku_nroDeCeldasVacias(t) == 0;
 }
 
 bool sudoku_esSubTablero(Tablero t0, Tablero t1) {
