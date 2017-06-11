@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "sudoku.h"
 
 using namespace std;
@@ -253,7 +254,44 @@ bool sudoku_resolver(Tablero t) {
 }
 
 bool sudoku_resolver(Tablero t, int& count) {
-	// COMPLETAR
-	return false;
+
+	bool tieneSolucion = false;
+
+	vector<pair<int, int> > vacias;
+	for (int f = 0; f < 9; f++) {
+		for (int c = 0; c < 9; c++) {
+			if (sudoku_esCeldaVacia(t, f, c)) {
+				// Esta vacia, va a la lista.
+				pair<int, int> coord (f, c);
+				vacias.push_back(coord);
+			}
+		}
+	}
+	int n = (int) vacias.size();
+
+	int i = 0;
+	while (! sudoku_esTableroTotalmenteResuelto(t) && (0 <= i) && (i < n)) {
+
+		// Incremento
+		int v = t[vacias[i].first][vacias[i].second];
+		if (v == 9) {
+			t[vacias[i].first][vacias[i].second] = 0;
+			count++;
+			i--;
+
+		} else {
+			t[vacias[i].first][vacias[i].second] = v + 1;
+			count++;
+
+			if (sudoku_esTableroParcialmenteResuelto(t)) {
+				i++; // Avanzo
+			}
+
+		}
+
+
+	}
+
+	return sudoku_esTableroTotalmenteResuelto(t);
 }
 
