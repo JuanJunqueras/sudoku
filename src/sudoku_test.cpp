@@ -227,7 +227,7 @@ TEST(sudoku_esTableroParcialmenteResueltoTest, tableroVacio) {
 	ASSERT_TRUE(sudoku_esTableroParcialmenteResuelto(t));
 }
 
-TEST(sudoku_esTableroParcialmenteResueltoTest, tableroResuelto) {
+TEST(sudoku_esTableroParcialmenteResueltoTest, tableroParcialmenteResuelto) {  //FIXME cambié el nombre de "tableroResuelto" a "tableroParcialmenteResuelto"
 	Tablero t = { { 0, 9, 4, 0, 0, 0, 1, 3, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			{ 0, 0, 0, 0, 7, 6, 0, 0, 2 }, { 0, 8, 0, 0, 1, 0, 0, 0, 0 }, { 0,
 					3, 2, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 2, 0, 0, 0, 6, 0 }, {
