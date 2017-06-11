@@ -77,14 +77,10 @@ bool filasOk(Tablero t);
 bool columnasOk(Tablero t);
 
 /**
- * Devuelve la cantidad de repeticiones que tiene un valor en una region.
- * */
-int cantidadEnRegion(Tablero t, int x, int y, int valor);
-
-/**
- * Devuelve true si no hay elementos repetidos en la region.
- * */
-bool regionValida (Tablero t, int x, int y);
+ * Devuelve true si la region que comienza en [f][c] (deben ser multiplos de 3) no tiene
+ * elementos que se repitan.
+ */
+bool laRegionNoTieneRepetidas(Tablero t, int f, int c);
 
 /**
  * Devuelve true si no hay regiones invalidas en el tablero.
