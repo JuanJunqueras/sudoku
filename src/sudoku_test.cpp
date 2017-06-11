@@ -238,6 +238,63 @@ TEST(sudoku_esTableroParcialmenteResueltoTest, tableroResuelto) {
 	ASSERT_TRUE(sudoku_esTableroParcialmenteResuelto(t));
 }
 
+TEST(sudoku_resolverTest, tableroYaResuelto) {
+	Tablero t = {{2, 9, 5, 7, 4, 3, 8, 6, 1},
+				 {4, 3, 1, 8, 6, 5, 9, 2, 7},
+				 {8, 7, 6, 1, 9, 2, 5, 4, 3},
+				 {3, 8, 7, 4, 5, 9, 2, 1, 6},
+ 				 {6, 1, 2, 3, 8, 7, 4, 9, 5},
+				 {5, 4, 9, 2, 1, 6, 7, 3, 8},
+				 {7, 6, 3, 5, 3, 4, 1, 8, 9},
+				 {9, 2, 8, 6, 7, 1, 3, 5, 4},
+				 {1, 5, 4, 9, 3, 8, 6, 7, 2}};
+	Tablero t0 = {{2, 9, 5, 7, 4, 3, 8, 6, 1},
+				 {4, 3, 1, 8, 6, 5, 9, 2, 7},
+				 {8, 7, 6, 1, 9, 2, 5, 4, 3},
+				 {3, 8, 7, 4, 5, 9, 2, 1, 6},
+	 			 {6, 1, 2, 3, 8, 7, 4, 9, 5},
+				 {5, 4, 9, 2, 1, 6, 7, 3, 8},
+				 {7, 6, 3, 5, 3, 4, 1, 8, 9},
+				 {9, 2, 8, 6, 7, 1, 3, 5, 4},
+				 {1, 5, 4, 9, 3, 8, 6, 7, 2}};
+
+	int count = 0;
+	bool fueResuelto = sudoku_resolver(t, count);
+
+	ASSERT_TRUE(fueResuelto); // // Fue resuelto
+	ASSERT_GE(count, 0); // los pasos son no negativos.
+	// Son iguales
+	for (int f = 0; f < 9; ++f) {
+		for (int c = 0; c < 9; ++c) {
+			ASSERT_EQ(t[f][c], t0[f][c]);
+		}
+	}
+}
+
+TEST(sudoku_resolverTest, tableroFacil) {
+	Tablero t = {{2, 9, 5, 7, 4, 3, 8, 6, 1},
+				 {4, 3, 1, 8, 6, 5, 9, 2, 7},
+				 {8, 7, 0, 0, 0, 2, 5, 4, 3},
+				 {3, 8, 0, 0, 0, 9, 2, 1, 6},
+ 				 {6, 1, 2, 3, 8, 7, 4, 9, 5},
+				 {5, 4, 9, 2, 1, 6, 7, 3, 8},
+				 {7, 6, 3, 5, 3, 4, 1, 8, 9},
+				 {9, 2, 8, 6, 7, 1, 3, 5, 4},
+				 {1, 5, 4, 9, 3, 8, 6, 7, 2}};
+
+	int count = 0;
+	bool fueResuelto = sudoku_resolver(t, count);
+
+	ASSERT_TRUE(fueResuelto); // // Fue resuelto
+	ASSERT_GE(count, 0); // los pasos son no negativos.
+	// Son iguales
+	for (int f = 0; f < 9; ++f) {
+		for (int c = 0; c < 9; ++c) {
+			ASSERT_EQ(t[f][c], t0[f][c]);
+		}
+	}
+}
+
 TEST(SudokuIntegracionTest, resolverTableroVacio) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
