@@ -132,7 +132,7 @@ bool sudoku_esTableroValido(Tablero t) {
 
 bool sudoku_esTableroParcialmenteResuelto(Tablero t) {
 
-	return filasOk(t) && columnasOk(t) && regionesOk(t);
+	return filasOk(t) && columnasOk(t) && regionesOk(t) && sudoku_esTableroValido(t);
 }
 
 bool filasOk(Tablero t) {
@@ -143,7 +143,7 @@ bool filasOk(Tablero t) {
 		while (c < 8) {
 			int k = c + 1;
 			while (k < 9) {
-				if ((t[f][c] = !0) && (t[f][c] == t[f][k])) {
+				if ((t[f][c] != 0) && (t[f][c] == t[f][k])) {
 					res = false;
 				}
 				k++;
@@ -163,7 +163,7 @@ bool columnasOk(Tablero t) {
 		while (f < 8) {
 			int k = f + 1;
 			while (k < 9) {
-				if ((t[f][c] = !0) && (t[f][c] == t[k][c])) {
+				if ((t[f][c] != 0) && (t[f][c] == t[k][c])) {
 					res = false;
 				}
 				k++;
