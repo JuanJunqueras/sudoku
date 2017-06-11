@@ -288,7 +288,7 @@ bool sudoku_resolver(Tablero t, int& count) {
 			}
 
 		}
-
+		// sudoku_print(t);
 
 	}
 
