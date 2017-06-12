@@ -273,6 +273,69 @@ TEST(sudoku_esTableroTotalmenteResueltoTest, tableroTotalmenteResuelto) {
 	ASSERT_TRUE(sudoku_esTableroTotalmenteResuelto(t));
 }
 
+TEST(companerasTest, celda) {
+
+	vector<pair<int, int> > posta;
+
+	for (int i = 1; i < 9; i++) {
+		posta.push_back(make_pair(i, 0)); // las de la columna 0
+		posta.push_back(make_pair(0, i)); // las de la fila 0
+	}
+	// Hardcodeadas, las de la region
+	posta.push_back(make_pair(1, 1));
+	posta.push_back(make_pair(1, 2));
+	posta.push_back(make_pair(2, 2));
+	posta.push_back(make_pair(2, 1));
+
+	vector<pair<int, int> > rta = companeras(0, 0);
+
+	// Igualdad de conjuntos
+	ASSERT_EQ(posta.size(), rta.size());
+	for (int i = 0; i < (int) posta.size(); ++i) {
+		// Cada elemento de "posta" debe estar en "rta"
+		bool estaEnRespuesta = false;
+		for (int j = 0; j < (int) rta.size(); ++j) {
+			if (posta[i] == rta[j]) {
+				estaEnRespuesta = true;
+			}
+		}
+		ASSERT_TRUE(estaEnRespuesta);
+	}
+}
+
+TEST(sudoku_copiarTableroTest, unTablero) {
+
+	// Referencia
+	Tablero t0 = { { 1, 4, 5, 3, 2, 7, 6, 9, 8, },
+			{ 8, 3, 9, 6, 5, 4, 1, 2, 7, }, { 6, 7, 2, 9, 1, 8, 5, 4, 3, }, { 4,
+					9, 6, 1, 8, 5, 3, 7, 2, }, { 2, 1, 8, 4, 7, 3, 9, 5, 6, }, {
+					7, 5, 3, 2, 9, 6, 4, 8, 1, },
+			{ 3, 6, 7, 5, 4, 2, 8, 1, 9, }, { 9, 8, 4, 7, 6, 1, 2, 3, 5, }, { 5,
+					2, 1, 8, 3, 9, 7, 6, 4, } };
+
+	// Argumento
+	Tablero t = { { 1, 4, 5, 3, 2, 7, 6, 9, 8, },
+			{ 8, 3, 9, 6, 5, 4, 1, 2, 7, }, { 6, 7, 2, 9, 1, 8, 5, 4, 3, }, { 4,
+					9, 6, 1, 8, 5, 3, 7, 2, }, { 2, 1, 8, 4, 7, 3, 9, 5, 6, }, {
+					7, 5, 3, 2, 9, 6, 4, 8, 1, },
+			{ 3, 6, 7, 5, 4, 2, 8, 1, 9, }, { 9, 8, 4, 7, 6, 1, 2, 3, 5, }, { 5,
+					2, 1, 8, 3, 9, 7, 6, 4, } };
+
+	Tablero tPrima;
+	int count = 0;
+	sudoku_copiarTablero(t, tPrima, count);
+
+	for (int f = 0; f < 9; ++f) {
+		for (int c = 0; c < 9; ++c) {
+			ASSERT_EQ(t[f][c], t0[f][c]); // No modifica t
+			ASSERT_EQ(tPrima[f][c], t0[f][c]); // tPrima es igual a t
+		}
+	}
+
+	ASSERT_GT(count, 0);
+
+}
+
 TEST(sudoku_resolverTest, tableroYaResuelto) {
 	Tablero t = { { 1, 4, 5, 3, 2, 7, 6, 9, 8, },
 			{ 8, 3, 9, 6, 5, 4, 1, 2, 7, }, { 6, 7, 2, 9, 1, 8, 5, 4, 3, }, { 4,
@@ -325,6 +388,7 @@ TEST(sudoku_resolverTest, soloFaltaUno) {
 			ASSERT_EQ(t[f][c], rta[f][c]);
 		}
 	}
+	ASSERT_GT(count, 0);
 }
 
 TEST(sudoku_resolverTest, faltanDos) {
@@ -402,8 +466,7 @@ TEST(sudoku_resolverTest, tableroSinSolucion) {
 	}
 }
 
-/*
-TEST(sudoku_resolverTest, unTablero) {
+TEST(sudoku_resolverTest, unTableroDeVerdad) {
 
 	Tablero t = { { 0, 0, 0, 5, 2, 0, 0, 0, 0 }, { 0, 9, 0, 0, 0, 3, 0, 0, 4 },
 			{ 0, 0, 0, 0, 0, 0, 7, 0, 0 }, { 0, 1, 0, 0, 0, 0, 0, 4, 0 }, { 0,
@@ -412,112 +475,11 @@ TEST(sudoku_resolverTest, unTablero) {
 			{ 0, 4, 0, 0, 8, 0, 0, 1, 0 } };
 
 	int count = 0;
-	ASSERT_TRUE(sudoku_resolver(t));
+	ASSERT_TRUE(sudoku_resolver(t, count));
+	cout << "count = " << count << endl;
 	ASSERT_TRUE(sudoku_esTableroTotalmenteResuelto(t));
 	ASSERT_GT(count, 0);
-} */
-
-/*
- TEST(sudoku_resolverTest, tableroDificil1) {
- Tablero t = { { 6, 0, 2, 0, 5, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 4, 0, 3, 0 },
- { 0, 0, 0, 0, 0, 0, 0, 0, 0 }, { 4, 3, 0, 0, 0, 8, 0, 0, 0 }, { 0,
- 1, 0, 0, 0, 0, 2, 0, 0 }, { 0, 0, 0, 0, 0, 0, 7, 0, 0 }, {
- 5, 0, 0, 2, 7, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 0, 8, 1 },
- { 0, 0, 0, 6, 0, 0, 0, 0, 0 } };
-
- int count = 0;
- ASSERT_FALSE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_TRUE(sudoku_resolver(t));
- ASSERT_TRUE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_GT(count, 0);
-
- }
- TEST(sudoku_resolverTest, tableroDificil2) {
- Tablero t = { { 4, 5, 0, 0, 0, 0, 0, 3, 0 }, { 0, 0, 0, 8, 0, 1, 0, 0, 0 },
- { 0, 9, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 5, 0, 0, 9, 0 }, { 2,
- 0, 0, 7, 0, 0, 0, 0, 0 }, { 8, 0, 0, 0, 0, 0, 0, 0, 0 }, {
- 0, 1, 0, 0, 4, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0, 7, 0, 2 },
- { 0, 0, 0, 6, 0, 0, 8, 0, 0 } };
-
- int count = 0;
- ASSERT_FALSE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_TRUE(sudoku_resolver(t));
- ASSERT_TRUE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_GT(count, 0);
-
- }
- TEST(sudoku_resolverTest, tableroDificil3) {
- Tablero t = { { 1, 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 0, 6, 0, 0, 0, 0, 0, 3 },
- { 0, 8, 0, 0, 0, 0, 4, 0, 1 }, { 0, 0, 0, 6, 7, 8, 5, 0, 4 }, { 0,
- 0, 0, 9, 0, 0, 0, 0, 0 }, { 0, 0, 0, 5, 0, 0, 7, 6, 0 }, {
- 0, 0, 2, 0, 0, 0, 0, 0, 0 }, { 5, 9, 0, 8, 1, 4, 0, 0, 0 },
- { 0, 0, 0, 3, 0, 0, 9, 0, 0 } };
-
- int count = 0;
- ASSERT_FALSE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_TRUE(sudoku_resolver(t));
- ASSERT_TRUE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_GT(count, 0);
-
- }
- TEST(sudoku_resolverTest, tableroDificil4) {
- Tablero t = { { 8, 0, 0, 0, 0, 0, 3, 0, 2 }, { 6, 0, 0, 0, 3, 5, 0, 0, 0 },
- { 0, 0, 9, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 2, 6, 0, 9 }, { 0,
- 0, 0, 0, 7, 0, 0, 0, 1 }, { 0, 5, 0, 0, 0, 0, 0, 3, 0 }, {
- 0, 0, 0, 9, 0, 8, 2, 0, 6 }, { 0, 2, 0, 7, 5, 0, 0, 0, 0 },
- { 0, 0, 0, 0, 0, 3, 1, 0, 0 } };
-
- int count = 0;
- ASSERT_FALSE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_TRUE(sudoku_resolver(t));
- ASSERT_TRUE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_GT(count, 0);
-
- }
- TEST(sudoku_resolverTest, tableroDificil5) {
- Tablero t = { { 0, 4, 7, 0, 8, 0, 0, 0, 1 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 6, 0, 0, 7, 0, 0 }, { 6, 0, 0, 0, 0, 3, 5, 7, 0 }, { 0,
- 0, 0, 0, 0, 5, 0, 0, 0 }, { 0, 1, 0, 0, 6, 0, 0, 0, 0 }, {
- 2, 8, 0, 0, 4, 0, 0, 0, 0 }, { 0, 9, 0, 1, 0, 0, 0, 4, 0 },
- { 0, 0, 0, 0, 2, 0, 6, 9, 0 } };
-
- int count = 0;
- ASSERT_FALSE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_TRUE(sudoku_resolver(t));
- ASSERT_TRUE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_GT(count, 0);
-
- }
-
- TEST(sudoku_resolverTest, tableroDificil6) {
- Tablero t = { { 0, 0, 0, 8, 0, 0, 0, 0, 9 }, { 0, 8, 7, 3, 0, 0, 0, 4, 0 },
- { 6, 0, 0, 7, 0, 0, 0, 0, 0 }, { 0, 0, 8, 5, 0, 0, 9, 7, 0 }, { 0,
- 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 4, 3, 0, 0, 7, 5, 0, 0 }, {
- 0, 0, 0, 0, 0, 3, 0, 0, 0 }, { 0, 3, 0, 0, 0, 1, 4, 5, 0 },
- { 4, 0, 0, 0, 0, 2, 0, 0, 1 } };
-
- int count = 0;
- ASSERT_FALSE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_TRUE(sudoku_resolver(t));
- ASSERT_TRUE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_GT(count, 0);
-
- }
-
- TEST(sudoku_resolverTest, tableroDificil7) {
- Tablero t = { { 0, 0, 0, 0, 0, 0, 8, 0, 1 }, { 7, 0, 0, 2, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 5, 0, 6, 0, 0, 0 }, { 0, 0, 0, 7, 0, 0, 0, 5, 0 }, { 0,
- 1, 0, 0, 0, 0, 3, 0, 0 }, { 0, 8, 0, 0, 0, 0, 0, 0, 0 }, {
- 5, 0, 0, 0, 0, 0, 0, 2, 0 }, { 0, 4, 0, 0, 8, 0, 0, 0, 0 },
- { 6, 0, 0, 0, 3, 0, 0, 0, 0 } };
-
- int count = 0;
- ASSERT_FALSE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_TRUE(sudoku_resolver(t));
- ASSERT_TRUE(sudoku_esTableroTotalmenteResuelto(t));
- ASSERT_GT(count, 0);
-
- }*/
+}
 
 TEST(SudokuIntegracionTest, resolverTableroVacio) {
 	Tablero t;
