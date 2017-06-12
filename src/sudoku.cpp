@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "sudoku.h"
 
 using namespace std;
@@ -131,15 +132,29 @@ bool sudoku_esTableroValido(Tablero t) {
 }
 
 bool sudoku_esTableroParcialmenteResuelto(Tablero t) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 	return sudoku_esTableroValido(t) && filasOk(t) && columnasOk(t) && regionesOk(t);
 }
 
 bool filasOk(Tablero t) {  //FIXME: chequear si funciona
 	bool res = true;
+<<<<<<< HEAD
 	for (int f = 0; f < 9; ++f) {
 		for (int c = 0; c < 8; ++c) {
 			// No debe volver a aparecer a la derecha c.
 			for (int k = c + 1; k < 9; k++) {
+=======
+
+	for (int f = 0; f < 9; ++f) {
+		for (int c = 0; c < 8; ++c) {
+
+			// No debe volver a aparecer a la derecha c.
+			for (int k = c + 1; k < 9; k++) {
+
+>>>>>>> origin/master
 				if ((t[f][c] != 0) && (t[f][c] == t[f][k])) {
 					res = false;
 				}
@@ -153,6 +168,10 @@ bool filasOk(Tablero t) {  //FIXME: chequear si funciona
 
 bool columnasOk(Tablero t) {
 	bool res = true;
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 	for (int c = 0; c < 9; c++) {
 		for (int f = 0; f < 8; f++) {
 
@@ -248,7 +267,44 @@ bool sudoku_resolver(Tablero t) {
 }
 
 bool sudoku_resolver(Tablero t, int& count) {
-	// COMPLETAR
-	return false;
+
+	bool tieneSolucion = false;
+
+	vector<pair<int, int> > vacias;
+	for (int f = 0; f < 9; f++) {
+		for (int c = 0; c < 9; c++) {
+			if (sudoku_esCeldaVacia(t, f, c)) {
+				// Esta vacia, va a la lista.
+				pair<int, int> coord (f, c);
+				vacias.push_back(coord);
+			}
+		}
+	}
+	int n = (int) vacias.size();
+
+	int i = 0;
+	while (! sudoku_esTableroTotalmenteResuelto(t) && (0 <= i) && (i < n)) {
+
+		// Incremento
+		int v = t[vacias[i].first][vacias[i].second];
+		if (v == 9) {
+			t[vacias[i].first][vacias[i].second] = 0;
+			count++;
+			i--;
+
+		} else {
+			t[vacias[i].first][vacias[i].second] = v + 1;
+			count++;
+
+			if (sudoku_esTableroParcialmenteResuelto(t)) {
+				i++; // Avanzo
+			}
+
+		}
+		// sudoku_print(t);
+
+	}
+
+	return sudoku_esTableroTotalmenteResuelto(t);
 }
 
