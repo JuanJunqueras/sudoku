@@ -5,13 +5,14 @@
 using namespace std;
 
 void sudoku_print(Tablero t) {
+	// Lo cambiamos porque este nos parece mas legible
 	for (int f = 0; f < 9; f++) {
 
 		for (int c = 0; c < 9; ++c) {
 
 			cout << " " << t[f][c];
 
-			// Imprime columna
+			// Imprime columna luego del elemento 2 y 5.
 			if (c == 2 || c == 5) {
 				cout << " |";
 			}
@@ -19,6 +20,7 @@ void sudoku_print(Tablero t) {
 
 		cout << endl;
 
+		// Imprime los separadores luego de la fila 2 y 5:
 		if (f == 2 || f == 5) {
 			cout << "-------+-------+-------" << endl;
 		}
@@ -77,6 +79,7 @@ int sudoku_primerCeldaVaciaColumna(Tablero t) {
 
 	/* itera por todas las filas. luego por todas las columnas.
 	 * cuando encuentra la celda, debería dejar de iterar y devolver
+	 * la columna.
 	 * */
 
 	int res = -1; // -1 significa que no fue hallada
@@ -177,6 +180,7 @@ bool columnasOk(Tablero t) {
 
 bool laRegionNoTieneRepetidas(Tablero t, int f, int c) {
 
+    // f y c son las esquinas superiores izquierdas del tablero
 	bool result = true;
 
 	for (int k = 1; k <= 9; k++) {
@@ -205,6 +209,7 @@ bool regionesOk(Tablero t) {
 
 	bool result = true;
 
+    // Se identifican las regiones por dos indices entre 0 y 2 inclusive.
 	for (int xRegion = 0; xRegion < 3; ++xRegion) {
 		for (int yRegion = 0; yRegion < 3; ++yRegion) {
 
@@ -244,12 +249,9 @@ bool sudoku_esSubTablero(Tablero t0, Tablero t1) {
 }
 
 bool sudoku_resolver(Tablero t) {
-	// COMPLETAR
-
 	bool res;
 	int count = 0; // Cuenta, va a ser ignorada.
 	res = sudoku_resolver(t, count);
-
 	return res;
 }
 
@@ -257,6 +259,7 @@ bool sudoku_resolver(Tablero t, int& count) {
 	bool pudeResolver = false;
 
 	if (sudoku_esTableroTotalmenteResuelto(t)) {
+		// Caso base de la recursion.
 		pudeResolver = true;
 	} else if (sudoku_esTableroParcialmenteResuelto(t)){
 		/* Coordenadas de la primer celda vacia.
@@ -268,7 +271,7 @@ bool sudoku_resolver(Tablero t, int& count) {
 		int c = sudoku_primerCeldaVaciaColumna(t);
 
 		for (int v = 1; (v < 10) && (! pudeResolver); ++v) { // 1 a 9 inclusive.
-			sudoku_llenarCelda(t, f, c, v);
+            t[f][c] = v;
 			count++;
 
 			// Busca por ese camino por recursion.
