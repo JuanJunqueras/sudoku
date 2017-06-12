@@ -581,6 +581,277 @@ TEST (sudoku_esTableroParcialmenteResueltoTEST, tableroParcialmenteResueltoMal){
 	ASSERT_EQ(false,rv);
 }
 
+
+TEST (sudoku_esTableroParcialmenteResueltoTEST, tableroVacio){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	int rv = sudoku_esTableroParcialmenteResuelto(t);
+	ASSERT_EQ(true,rv);
+}
+
+TEST (sudoku_filasOkTEST, unaFilaCompletaBien){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,0,0,5);
+	sudoku_llenarCelda(t,0,1,3);
+	sudoku_llenarCelda(t,0,2,4);
+	sudoku_llenarCelda(t,0,3,6);
+	sudoku_llenarCelda(t,0,4,7);
+	sudoku_llenarCelda(t,0,5,8);
+	sudoku_llenarCelda(t,0,6,9);
+	sudoku_llenarCelda(t,0,7,1);
+	sudoku_llenarCelda(t,0,8,2);
+	bool filasOk_rv = filasOk(t);
+	ASSERT_TRUE(filasOk_rv);
+}
+
+TEST (sudoku_filasOkTEST, unaFilaCompletaMal){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,0,0,5);
+	sudoku_llenarCelda(t,0,1,3); //este y el siguiente elemento de la fila son iguales.
+	sudoku_llenarCelda(t,0,2,3);
+	sudoku_llenarCelda(t,0,3,6);
+	sudoku_llenarCelda(t,0,4,7);
+	sudoku_llenarCelda(t,0,5,8);
+	sudoku_llenarCelda(t,0,6,9);
+	sudoku_llenarCelda(t,0,7,1);
+	sudoku_llenarCelda(t,0,8,2);
+	bool filasOk_rv = filasOk(t);
+	ASSERT_FALSE(filasOk_rv);
+}
+
+TEST (sudoku_filasOkTEST, unaFilaIncompletaBien){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,0,0,0);
+	sudoku_llenarCelda(t,0,1,3);
+	sudoku_llenarCelda(t,0,2,0);
+	sudoku_llenarCelda(t,0,3,0);
+	sudoku_llenarCelda(t,0,4,7);
+	sudoku_llenarCelda(t,0,5,8);
+	sudoku_llenarCelda(t,0,6,9);
+	sudoku_llenarCelda(t,0,7,1);
+	sudoku_llenarCelda(t,0,8,2);
+	bool filasOk_rv = filasOk(t);
+	ASSERT_TRUE(filasOk_rv);
+}
+
+TEST (sudoku_filasOkTEST, unaFilaIcompletaMal){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,0,0,5);
+	sudoku_llenarCelda(t,0,1,0);
+	sudoku_llenarCelda(t,0,2,0);
+	sudoku_llenarCelda(t,0,3,6);//éste y el siguiente elemento no vacío de la fila se repiten.
+	sudoku_llenarCelda(t,0,4,0);
+	sudoku_llenarCelda(t,0,5,0);
+	sudoku_llenarCelda(t,0,6,0);
+	sudoku_llenarCelda(t,0,7,6);
+	sudoku_llenarCelda(t,0,8,2);
+	bool filasOk_rv = filasOk(t);
+	ASSERT_FALSE(filasOk_rv);
+}
+
+TEST (sudoku_filasOkTEST, tableroVacio){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	bool filasOk_rv = filasOk(t);
+	ASSERT_TRUE(filasOk_rv);
+}
+
+TEST (sudoku_columnasOkTEST, unaColumnaCompletaBien){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,0,0,1);
+	sudoku_llenarCelda(t,1,0,2);
+	sudoku_llenarCelda(t,2,0,3);
+	sudoku_llenarCelda(t,3,0,4);
+	sudoku_llenarCelda(t,4,0,5);
+	sudoku_llenarCelda(t,5,0,6);
+	sudoku_llenarCelda(t,6,0,7);
+	sudoku_llenarCelda(t,7,0,8);
+	sudoku_llenarCelda(t,8,0,9);
+	bool columnasOk_rv = columnasOk(t);
+	ASSERT_TRUE(columnasOk_rv);
+}
+
+TEST (sudoku_columnasOkTEST, unaColumnaCompletaMal){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,0,0,1);
+	sudoku_llenarCelda(t,1,0,2);
+	sudoku_llenarCelda(t,2,0,3);//éste y el siguiente elemento se repiten.
+	sudoku_llenarCelda(t,3,0,3);
+	sudoku_llenarCelda(t,4,0,5);
+	sudoku_llenarCelda(t,5,0,6);
+	sudoku_llenarCelda(t,6,0,7);
+	sudoku_llenarCelda(t,7,0,8);
+	sudoku_llenarCelda(t,8,0,9);
+	bool columnasOk_rv = columnasOk(t);
+	ASSERT_FALSE(columnasOk_rv);
+}
+
+TEST (sudoku_columnasOkTEST, unaColumnaIncompletaBien){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,0,0,0);
+	sudoku_llenarCelda(t,1,0,2);
+	sudoku_llenarCelda(t,2,0,0);
+	sudoku_llenarCelda(t,3,0,0);
+	sudoku_llenarCelda(t,4,0,5);
+	sudoku_llenarCelda(t,5,0,6);
+	sudoku_llenarCelda(t,6,0,0);
+	sudoku_llenarCelda(t,7,0,0);
+	sudoku_llenarCelda(t,8,0,9);
+	bool columnasOk_rv = columnasOk(t);
+	ASSERT_TRUE(columnasOk_rv);
+}
+
+TEST (sudoku_columnasOkTEST, unaColumnaIncompletaMal){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,0,0,1);//éste elemento se repite más adelante
+	sudoku_llenarCelda(t,1,0,0);
+	sudoku_llenarCelda(t,2,0,0);
+	sudoku_llenarCelda(t,3,0,0);
+	sudoku_llenarCelda(t,4,0,5);
+	sudoku_llenarCelda(t,5,0,6);
+	sudoku_llenarCelda(t,6,0,1);
+	sudoku_llenarCelda(t,7,0,8);
+	sudoku_llenarCelda(t,8,0,9);
+	bool columnasOk_rv = columnasOk(t);
+	ASSERT_FALSE(columnasOk_rv);
+}
+
+
+TEST (sudoku_columnasOkTEST, tableroVacio){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	bool columnasOk_rv = columnasOk(t);
+	ASSERT_TRUE(columnasOk_rv);
+}
+
+
+TEST (sudoku_laRegionNoTieneRepetidasTEST, regionCompletaSinRepetidas){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,3,3,1);
+	sudoku_llenarCelda(t,4,3,2);
+	sudoku_llenarCelda(t,5,3,3);
+	sudoku_llenarCelda(t,3,4,4);
+	sudoku_llenarCelda(t,4,4,5);
+	sudoku_llenarCelda(t,5,4,6);
+	sudoku_llenarCelda(t,3,5,7);
+	sudoku_llenarCelda(t,4,5,8);
+	sudoku_llenarCelda(t,5,5,9);
+	bool region_rv = laRegionNoTieneRepetidas(t,3,3);
+	ASSERT_TRUE(region_rv);
+}
+
+TEST (sudoku_laRegionNoTieneRepetidasTEST, regionCompletaConRepetidas){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,3,3,1);//éste elemento se repite en la región.
+	sudoku_llenarCelda(t,4,3,2);
+	sudoku_llenarCelda(t,5,3,3);
+	sudoku_llenarCelda(t,3,4,4);
+	sudoku_llenarCelda(t,4,4,1);
+	sudoku_llenarCelda(t,5,4,6);
+	sudoku_llenarCelda(t,3,5,7);
+	sudoku_llenarCelda(t,4,5,8);
+	sudoku_llenarCelda(t,5,5,9);
+	bool region_rv = laRegionNoTieneRepetidas(t,3,3);
+	ASSERT_FALSE(region_rv);
+}
+
+TEST (sudoku_laRegionNoTieneRepetidasTEST, regionIncompletaSinRepetidas){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,3,3,1);
+	sudoku_llenarCelda(t,4,3,0);
+	sudoku_llenarCelda(t,5,3,3);
+	sudoku_llenarCelda(t,3,4,0);
+	sudoku_llenarCelda(t,4,4,5);
+	sudoku_llenarCelda(t,5,4,0);
+	sudoku_llenarCelda(t,3,5,0);
+	sudoku_llenarCelda(t,4,5,8);
+	sudoku_llenarCelda(t,5,5,9);
+	bool region_rv = laRegionNoTieneRepetidas(t,3,3);
+	ASSERT_TRUE(region_rv);
+}
+
+TEST (sudoku_laRegionNoTieneRepetidasTEST, regionIncompletaConRepetidas){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	sudoku_llenarCelda(t,3,3,1);//éste valor se repite en la mísma celda.
+	sudoku_llenarCelda(t,4,3,0);
+	sudoku_llenarCelda(t,5,3,3);
+	sudoku_llenarCelda(t,3,4,0);
+	sudoku_llenarCelda(t,4,4,1);
+	sudoku_llenarCelda(t,5,4,0);
+	sudoku_llenarCelda(t,3,5,0);
+	sudoku_llenarCelda(t,4,5,8);
+	sudoku_llenarCelda(t,5,5,9);
+	bool region_rv = laRegionNoTieneRepetidas(t,3,3);
+	ASSERT_FALSE(region_rv);
+
+}
+
+TEST (sudoku_laRegionNoTieneRepetidasTEST, regionVacia){
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	bool region_rv = laRegionNoTieneRepetidas(t,3,3);
+	ASSERT_TRUE(region_rv);
+}
+
+TEST(sudoku_regionesOkTEST, totalmenteResueltoBien) {
+	Tablero t = { { 5, 3, 4, 6, 7, 8, 9, 1, 2 }, { 6, 7, 2, 1, 9, 5, 3, 4, 8 },
+			{ 1, 9, 8, 3, 4, 2, 5, 6, 7 }, { 8, 5, 9, 7, 6, 1, 4, 2, 3 },
+			{ 4, 2, 6, 8, 5, 3, 7, 9, 1 }, { 7, 1, 3, 9, 2, 4, 8, 5, 6 },
+			{ 9, 6, 1, 5, 3, 7, 2, 8, 4 }, { 2, 8, 7, 4, 1, 9, 6, 3, 5 },
+			{ 3, 4, 5, 2, 8, 6, 1, 7, 9 } };
+	bool regionesOk_rv = regionesOk(t);
+	ASSERT_TRUE(regionesOk_rv);
+}
+
+TEST(sudoku_regionesOkTEST, totalmenteResueltoMal) {
+	Tablero t = { { 5, 3, 4, 6, 7, 8, 9, 1, 2 }, { 6, 4, 2, 1, 9, 5, 3, 4, 8 }, //la primer región tiene repetido un 4.
+			{ 1, 9, 8, 3, 4, 2, 5, 6, 7 }, { 8, 5, 9, 7, 6, 1, 4, 2, 3 },
+			{ 4, 2, 6, 8, 5, 3, 7, 9, 1 }, { 7, 1, 3, 9, 2, 4, 8, 5, 6 },
+			{ 9, 6, 1, 5, 3, 7, 2, 8, 4 }, { 2, 8, 7, 4, 1, 9, 6, 3, 5 },
+			{ 3, 4, 5, 2, 8, 6, 1, 7, 9 } };
+	bool regionesOk_rv = regionesOk(t);
+	ASSERT_FALSE(regionesOk_rv);
+}
+
+TEST(sudoku_regionesOkTEST, parcialmenteResueltoBien) {
+	Tablero t = { { 0, 9, 4, 0, 0, 0, 1, 3, 0 }, { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 7, 6, 0, 0, 2 }, { 0, 8, 0, 0, 1, 0, 0, 0, 0 }, { 0,
+					3, 2, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 2, 0, 0, 0, 6, 0 }, {
+					0, 0, 0, 0, 5, 0, 4, 0, 0 }, { 0, 0, 0, 0, 0, 8, 0, 0, 7 },
+			{ 0, 0, 6, 3, 0, 4, 0, 0, 8 } };
+	bool regionesOk_rv = regionesOk(t);
+	ASSERT_TRUE(regionesOk_rv);
+}
+
+TEST(sudoku_regionesOkTEST, parcialmenteResueltoMal) {
+	Tablero t = { { 0, 9, 4, 0, 0, 0, 1, 3, 0 }, { 0, 9, 0, 0, 0, 0, 0, 0, 0 }, //En la primer región se repite un nueve
+			{ 0, 0, 0, 0, 7, 6, 0, 0, 2 }, { 0, 8, 0, 0, 1, 0, 0, 0, 0 }, { 0,
+					3, 2, 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 2, 0, 0, 0, 6, 0 }, {
+					0, 0, 0, 0, 5, 0, 4, 0, 0 }, { 0, 0, 0, 0, 0, 8, 0, 0, 7 },
+			{ 0, 0, 6, 3, 0, 4, 0, 0, 8 } };
+	bool regionesOk_rv = regionesOk(t);
+	ASSERT_FALSE(regionesOk_rv);
+}
+
+TEST(sudoku_regionesOkTEST, vacio) {
+	Tablero t;
+	sudoku_vaciarTablero(t);
+	bool regionesOk_rv = regionesOk(t);
+	ASSERT_TRUE(regionesOk_rv);
+}
+
 TEST(SudokuIntegracionTest, resolverTableroVacio) {
 	Tablero t;
 	sudoku_vaciarTablero(t);
