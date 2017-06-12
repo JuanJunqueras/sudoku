@@ -59,7 +59,8 @@ int sudoku_nroDeCeldasVacias(Tablero t) {
 int sudoku_primerCeldaVaciaFila(Tablero t) {
 	int res = -1;
 	int f = 0;
-	//va iterando por todas las celdas en sentido horizontal//
+
+    // Avanza fila por fila buscando una celda vacia.
 	while (f < 9 && res == -1) {
 		int c = 0;
 		while (c < 9 && res == -1) {
@@ -84,7 +85,7 @@ int sudoku_primerCeldaVaciaColumna(Tablero t) {
 
 	int res = -1; // -1 significa que no fue hallada
 
-	// Itera en orden por todas las filas y columnas.
+    // Itera fila por fila buscando el primer elemento vacio
 	for (int f = 0; f < 9 && res == -1; f++) {
 		for (int c = 0; c < 9 && res == -1; c++) {
 
@@ -99,9 +100,7 @@ int sudoku_primerCeldaVaciaColumna(Tablero t) {
 }
 
 int sudoku_valorEnCelda(Tablero t, int f, int c) {
-	int result = 0; //no hace falta inicializar, pero si lo hago es mejor, no?
-	result = t[f][c]; //se podrían escribir ésta y la linea anterior en una sola? ej: int result = t[f][c];
-	return result; //FIXME el archivo original tennía "return result-1;" lo cambié por mi código, no le veo ningún sentido al original
+    return t[f][c];
 }
 
 void sudoku_llenarCelda(Tablero t, int f, int c, int v) {
@@ -134,13 +133,16 @@ bool sudoku_esTableroValido(Tablero t) {
 }
 
 bool sudoku_esTableroParcialmenteResuelto(Tablero t) {
-
+    // Se desprende de la especificacion.
 	return sudoku_esTableroValido(t) && filasOk(t) && columnasOk(t)
 			&& regionesOk(t);
 }
 
 bool filasOk(Tablero t) {
 	bool res = true;
+
+    /* Por cada fila, se asegura que para cada elemento distinto a cero en ella, no se vuelva a repetir a su derecha.
+     */
 
 	for (int f = 0; f < 9; ++f) {
 		for (int c = 0; c < 8; ++c) {
@@ -162,6 +164,9 @@ bool filasOk(Tablero t) {
 bool columnasOk(Tablero t) {
 	bool res = true;
 
+    /* Para cada columna, se asegura que para cada elemento distinto a cero en ella, no se repite por debajo.
+     * */
+
 	for (int c = 0; c < 9; c++) {
 		for (int f = 0; f < 8; f++) {
 
@@ -180,11 +185,15 @@ bool columnasOk(Tablero t) {
 
 bool laRegionNoTieneRepetidas(Tablero t, int f, int c) {
 
+    /* Devuelve true si la region que empieza en (f, c) no contiene elementos distintos a 0 que se repitan.
+     * f y c deben ser 0, 3, o 6.
+     */
     // f y c son las esquinas superiores izquierdas del tablero
 	bool result = true;
 
 	for (int k = 1; k <= 9; k++) {
 
+        // Contamos cuantas veces se repite el valor "k".
 		int count = 0;
 
 		// Contamos las apariciones de k en la region.
@@ -217,6 +226,7 @@ bool regionesOk(Tablero t) {
 			int f = xRegion * 3;
 			int c = yRegion * 3;
 
+            // Verificamos que no haya repetidas en ninguna de las 9 regiones
 			result &= laRegionNoTieneRepetidas(t, f, c);
 
 		}
@@ -234,9 +244,8 @@ bool sudoku_esTableroTotalmenteResuelto(Tablero t) {
 bool sudoku_esSubTablero(Tablero t0, Tablero t1) {
 	bool result = true;
 	int f = 0;
-	//Empieza a recorrer el tablero t0 celda por celda
-	while (f < 9 && result) { //Significa que va a salir del ciclo cuando encuentre una celda que indica
-		int c = 0; //que t0 no es subtablero de t1. Repito eso para el ciclo de la columna.
+	while (f < 9 && result) {
+		int c = 0;
 		while (c < 9 && result) {
 			if (!sudoku_esCeldaVacia(t0, f, c) && t0[f][c] != t1[f][c]) {
 				result = false;
@@ -249,6 +258,7 @@ bool sudoku_esSubTablero(Tablero t0, Tablero t1) {
 }
 
 bool sudoku_resolver(Tablero t) {
+    // Wrapeamos sudoku_resolver(Tablero r, int& count) para no tener codigo duplicado.
 	bool res;
 	int count = 0; // Cuenta, va a ser ignorada.
 	res = sudoku_resolver(t, count);
