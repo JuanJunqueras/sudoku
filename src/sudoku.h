@@ -119,17 +119,6 @@ bool sudoku_resolver(Tablero t);
 bool sudoku_resolver(Tablero t, int& count);
 
 /**
- * Copia el tablero t0 en t1.
- */
-void sudoku_copiarTablero(Tablero t0, Tablero t1, int& count);
-
-/**
- * Devuelve un vector con el conjunto de celdas que comparten fila, columna o
- * region con el casillero en (f, c).
- */
-vector<pair<int, int> > companeras(int f, int c);
-
-/**
  * Imprime el tablero actual por pantalla.
  */
 void sudoku_print(Tablero t);
